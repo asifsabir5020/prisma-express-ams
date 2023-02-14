@@ -5,8 +5,9 @@ import 'express-async-errors';
 import cors from 'cors';
 import { NotFoundError } from './utils/errors';
 import { errorHandler } from './middlewares/errors';
-import { bookRouter } from "./routers/book";
 import { authRouter } from "./routers/auth";
+import { programRouter } from "./routers/program";
+import { authenticate } from "./middlewares/auth";
 
 dotEnv.config();
 
@@ -20,7 +21,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/api/v1/users', authRouter);
-app.use('/api/v1/books', bookRouter);
+app.use('/api/v1/programs', authenticate, programRouter);
 
 
 

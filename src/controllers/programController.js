@@ -1,60 +1,59 @@
 import { StatusCodes } from "http-status-codes";
+import { prisma } from "../../prisma/prisma.client";
 import { NotFoundError } from "../utils/errors";
-import { prisma } from '../../prisma/prisma.client';
 import { withValidation } from "../utils/validations";
 
 export const findAll = async (req, res) => {
-  const books = await prisma.book.findMany();
+  const programs = await prisma.program.findMany();
   res.status(StatusCodes.OK).json({
     success: true,
-    data: books,
+    data: programs,
   });
 };
 
 export const create = async (req, res) => {
-  const book = await prisma.book.create({
+  const program = await prisma.program.create({
     data: withValidation(req.body, {
       title: [{ required: true }],
-      author: [{ required: true }]
     })
   });
   res.status(StatusCodes.CREATED).json({
     success: true,
-    data: book,
+    data: program,
   });
 };
 
 export const findOne = async (req, res) => {
   const { id } = req.params;
-  const book = await prisma.book.findUnique({
+  const program = await prisma.program.findUnique({
     where: {
       id: +id
     }
   });
 
-  if (!book) {
-    throw new NotFoundError(`No book with id :${id}`);
+  if (!program) {
+    throw new NotFoundError(`No program with id :${id}`);
   }
 
   res.status(StatusCodes.OK).json({
     success: true,
-    data: book,
+    data: program,
   });
 };
 
 export const update = async (req, res) => {
   const { id } = req.params;
-  const book = await prisma.book.findUnique({
+  const program = await prisma.program.findUnique({
     where: {
       id: +id
     }
   });
 
-  if (!book) {
-    throw new NotFoundError(`No book with id :${id}`);
+  if (!program) {
+    throw new NotFoundError(`No program with id :${id}`);
   }
 
-  const updatedBook = await prisma.book.update({
+  const updatedprogram = await prisma.program.update({
     where: {
       id: +id
     },
@@ -63,23 +62,23 @@ export const update = async (req, res) => {
 
   res.status(StatusCodes.OK).json({
     success: true,
-    data: updatedBook,
+    data: updatedprogram,
   });
 };
 
 export const remove = async (req, res) => {
   const { id } = req.params;
-  const book = await prisma.book.findUnique({
+  const program = await prisma.program.findUnique({
     where: {
       id: +id
     }
   });
 
-  if (!book) {
-    throw new NotFoundError(`No book with id :${id}`)
+  if (!program) {
+    throw new NotFoundError(`No program with id :${id}`)
   }
 
-  await prisma.book.delete({
+  await prisma.program.delete({
     where: {
       id: +id
     },
@@ -87,6 +86,6 @@ export const remove = async (req, res) => {
 
   res.status(StatusCodes.OK).json({
     success: true,
-    message: 'Success! Book removed',
+    message: 'Success! program removed',
   });
 }

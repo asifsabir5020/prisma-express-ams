@@ -6,7 +6,7 @@ const authRouter = express.Router();
 authRouter.route("/auth/register").post(register);
 authRouter.route("/auth/login").post(login);
 authRouter.route("/auth/me").get(authenticate, me);
-authRouter.route("/all").get(authenticate, authorize('admin'), findAllUsers);
+authRouter.route("/all").get(authenticate, authorize('ADMIN'), findAllUsers);
 
 export { authRouter };
 
